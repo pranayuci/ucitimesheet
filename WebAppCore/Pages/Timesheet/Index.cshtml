@@ -1,0 +1,255 @@
+﻿@page
+
+@model WebAppCore.Pages.Timesheet.IndexModel
+
+@{
+    ViewData["Title"] = "Current Week Timesheet";
+}
+
+<h2>Current Week Timesheet</h2>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 style="display:inline">Timesheet</h3> <span class="text-danger pull-right" style="font-weight:bold">@Model.TimesheetState</span>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <label asp-for="UserVm.Name" class="control-label">Name: <span style="font-weight:normal">@Model.UserVm.Name</span> </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="UserVm.ClientName" class="control-label">Client: <span style="font-weight:normal"> @Model.UserVm.ClientName</span></label>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <label asp-for="UserVm.Department" class="control-label">Department: <span style="font-weight:normal"> @Model.UserVm.Department </span></label>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="UserVm.ProjectName" class="control-label">Project:<span style="font-weight:normal"> @Model.UserVm.ProjectName </span></label>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+                <div class="text-danger" style="@(Model.pageIsRejected ? "display:block" : "display:none");font-weight:bold;">Approver's Comment: @Model.RejectionMessage</div>
+                <div class="text-info" style="@(Model.pageIsApproved ? "display:block" : "display:none");font-weight:bold;">@Model.ApprovedMessage</div>                
+            </div>
+            <div class="panel-body">
+                <input type="hidden" id="hdnTotalWorkHours" name="hdnTotalWorkHours" />
+                <input type="hidden" asp-for="@Model.WeeksOfYearVm" value="@Model.WeeksOfYearVm" />
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <input type="hidden" asp-for="@Model.WeeksOfYearVm.WeekNumber" />
+                        <label asp-for="@Model.WeeksOfYearVm.WeekNumber">
+                            Week: @Model.WeeksOfYearVm.WeekNumber
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <form asp-page-handler="edit" method="post">
+                        <div class="col-md-2">
+                            <button style="margin-left:100px;" type="submit" asp-page-handler="edit" class="btn btn-default" asp-route-weekId1="dec" asp-route-weekId=" @Model.WeeksOfYearVm.WeekNumber">
+                                <i class="glyphicon glyphicon-circle-arrow-left"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <input disabled asp-for="@Model.WeeksOfYearVm.StartDate" type="date" class="form-control col-md-3" />
+                            @*<input type="hidden" asp-for="@Model.WeeksOfYearVm.StartDate" />
+                                <label asp-for="@Model.WeeksOfYearVm.StartDate">
+                                    @Model.WeeksOfYearVm.StartDate
+                                </label>*@
+                        </div>
+                        <div class="col-md-4">
+                            @*<input disabled asp-for="@Model.WeeksOfYearVm.EndDate" type="date" max="@string.Format("{0:yyyy-MM-dd}", Model.CurrentDate)" class="form-control col-md-3" />*@
+                            <input disabled asp-for="@Model.WeeksOfYearVm.EndDate" type="date" class="form-control col-md-3" />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" asp-page-handler="edit" class="btn btn-default" asp-route-weekId1="inc" asp-route-weekId=" @Model.WeeksOfYearVm.WeekNumber">
+                                <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <form method="post">
+                    <div class="form-group">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Day
+                                    </th>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Work Hours
+                                    </th>
+                                    @*<th>
+                                            Lunch Hours
+                                        </th>*@
+                                    <th>
+                                        Comments
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    @if (Model.TimesheetVm != null && Model.TimesheetVm.Any())
+                                    {
+                                        @for (int i = 0; i < Model.TimesheetVm.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" asp-for="@Model.TimesheetVm[i].Day" />
+                                                    <label asp-for="@Model.TimesheetVm[i].Day">
+                                                        @Model.TimesheetVm[i].Day
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" asp-for="@Model.TimesheetVm[i].Date" />
+                                                    <label asp-for="@Model.TimesheetVm[i].Date">
+                                                        @Model.TimesheetVm[i].Date.ToShortDateString()
+                                                    </label>
+
+                                                </td>
+                                                <td style="width:10%">
+                                                    <div class="form-group">
+                                                        <input disabled="@Model.TimesheetVm[i].isDisabled" id="workHours-@i" type="number" step="0.01" asp-for="@Model.TimesheetVm[i].WorkHours" class="form-control" />
+                                                        <span asp-validation-for="@Model.TimesheetVm[i].WorkHours" class="text-danger"></span>
+                                                    </div>
+
+                                                </td>
+                                                @*<td style="width:10%">
+                                                        <div class="form-group">
+                                                            <input disabled="@Model.DisableEntries" id="lunchHours-@i" type="number" step="0.01" asp-for="@Model.TimesheetVm[i].LunchHours" class="form-control" />
+                                                            <span asp-validation-for="@Model.TimesheetVm[i].LunchHours" class="text-danger"></span>
+                                                        </div>
+
+                                                    </td>*@
+                                                <td>
+                                                    <div class="form-group" style="width:auto">
+                                                        @*<input disabled="@Model.DisableEntries" asp-for="@Model.TimesheetVm[i].Comments" class="form-control" />*@
+                                                        <input disabled="@Model.TimesheetVm[i].isDisabled" asp-for="@Model.TimesheetVm[i].Comments" class="form-control" />
+
+                                                        <span asp-validation-for="@Model.TimesheetVm[i].Comments" class="text-danger"></span>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <label>Total</label>
+                                            </td>
+                                            <td>
+                                                @*<div id="totalWorkingHours" asp-for="@Model.TotalWorkingHours"></div>*@
+                                                <div id="totalWorkingHours"></div>
+
+                                            </td>
+                                            @*<td>
+                                                    <div id="totalLunchHours"></div>
+                                                </td>*@
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="hdnTotalWorkHours" name="hdnTotalWorkHours" />
+                        @*<input type="hidden" id="hdnTotalLunchHours" name="hdnTotalLunchHours" />*@
+
+                    </div>
+                    <div class="panel-footer" style="height:50px;">
+
+                        <div class="form-check m-1">
+
+                            @*<input asp-for="@Model.isSubmitted" class="form-check-input" />
+                                <label class="form-check-label" asp-for="@Model.isSubmitted">
+                                    Check to submit
+                                </label>*@
+                        
+                            <input id="btnSubmit" style="margin-left:10px;" type="submit" disabled="@Model.isLastDayOfWeek"  asp-page-handler="main" asp-route-buttonId="submit" value="Submit" class="btn btn-primary pull-right" />
+                            <input id="btnSave" type="submit"  disabled="@Model.isSaveDisabled" asp-page-handler="main" asp-route-buttonId="savedraft" value="Save Draft" class="btn btn-primary pull-right" />
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+    @section CalculateTotalHoursScripts {
+        <script>
+        $(document).ready(function () {
+            var totalWorkingHours = 0;
+            //var totalLunchHours = 0;
+
+            //var form = document.getElementById("form-id");
+
+            //document.getElementById("btnSubmit").addEventListener("click", function () {
+            //    form.submit();
+            //});
+            //document.getElementById('btnSubmit').submit();
+
+             for (var i = 0; i < 7; i++)
+             {
+                 debugger;
+                 totalWorkingHours = (parseFloat(totalWorkingHours) + parseFloat($("#workHours-" + i).val())).toFixed(2);
+
+                 $('#totalWorkingHours').val(totalWorkingHours);
+                 $('#totalWorkingHours').html(totalWorkingHours);
+                 $('#hdnTotalWorkHours').val(totalWorkingHours);
+
+
+                 //totalLunchHours = (parseFloat(totalLunchHours) + parseFloat($("#lunchHours-" + i).val())).toFixed(2);
+
+                 //$('#totalLunchHours').val(totalLunchHours);
+                 //$('#totalLunchHours').html(totalLunchHours);
+                 //$('#hdnTotalLunchHours').val(totalLunchHours);
+
+
+
+                 $("#workHours-" + i).on('blur', function () {
+                     debugger;
+                     totalWorkingHours = 0;
+                     @*for (var i = 0; i < @Model.TimesheetVm.Count; i++) {*@
+                     for (var i = 0; i < 7; i++) {
+                         totalWorkingHours = (parseFloat(totalWorkingHours) + parseFloat($("#workHours-" + i).val())).toFixed(2);
+                         $('#totalWorkingHours').val(totalWorkingHours);
+                         $('#totalWorkingHours').html(totalWorkingHours);
+                         $('#hdnTotalWorkHours').val(totalWorkingHours);
+                     }
+                 })
+
+                // $("#lunchHours-" + i).on('blur', function () {
+                //     debugger;
+                //     totalLunchHours = 0;
+
+                //     for (var i = 0; i < 7; i++) {
+                //           totalLunchHours = (parseFloat(totalLunchHours) + parseFloat($("#lunchHours-" + i).val())).toFixed(2);
+                //           $('#totalLunchHours').val(totalLunchHours);
+                //           $('#totalLunchHours').html(totalLunchHours);
+                //           $('#hdnTotalLunchHours').val(totalLunchHours);
+                //     }
+                //})
+            }
+             });
+        </script>
+    }
+
+</div>
+

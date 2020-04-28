@@ -1,0 +1,30 @@
+﻿@using WebAppCore
+@model Microsoft.AspNetCore.Identity.IdentityRole
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>@Model.Name</h3>
+    </div>
+    <div class="panel-body">
+        <span><b>Id:</b> @Model.Id</span>&nbsp;
+        <span><b>Role:</b> @Model.Name</span>&nbsp;
+    </div>
+    <div class="panel-footer">
+        @*<a class="btn btn-lg"
+           asp-page="./Details"
+           asp-route-roleId="@Model.Id">
+            <i class="glyphicon glyphicon-zoom-in"></i>
+        </a>*@
+        <a class="btn btn-lg"
+           asp-page="./Edit"
+           asp-route-roleId="@Model.Id">
+            <i class="glyphicon glyphicon-edit"></i>
+        </a>
+        @*<a class="btn btn-lg"
+           asp-page="./Delete"
+           asp-route-roleId="@Model.Id">
+            <i class="glyphicon glyphicon-trash"></i>
+        </a>*@
+    </div>
+
+</div>

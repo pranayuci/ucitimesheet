@@ -1,0 +1,95 @@
+﻿@page
+@model WebAppCore.Pages.Users.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.FirstName" class="control-label"></label>
+                    <input tabindex="1" asp-for="ConsultantRegisterModelVm.FirstName" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.FirstName" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="ConsultantRegisterModelVm.Client" class="control-label"></label>
+                        <input tabindex="3" asp-for="ConsultantRegisterModelVm.Client" class="form-control" />
+                        <span asp-validation-for="ConsultantRegisterModelVm.Client" class="text-danger"></span>
+                    </div>*@
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.Client" class="control-label">Client</label>
+                    <select tabindex="3" class="form-control" asp-for="ConsultantRegisterModelVm.Client"
+                            asp-items="@(new SelectList(Model.Clients, "ClientId","Name"))">
+                        <option value="">Select Client</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="ConsultantRegisterModelVm.Client"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.ProjectName" class="control-label"></label>
+                    <input tabindex="5" asp-for="ConsultantRegisterModelVm.ProjectName" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.ProjectName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.ContractStartTime" class="control-label"></label>
+                    <input tabindex="7" type="date" asp-for="ConsultantRegisterModelVm.ContractStartTime" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.ContractStartTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.Password" class="control-label"></label>
+                    <input tabindex="9" asp-for="ConsultantRegisterModelVm.Password" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.LastName" class="control-label"></label>
+                    <input tabindex="2" asp-for="ConsultantRegisterModelVm.LastName" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.Department" class="control-label"></label>
+                    <input tabindex="4" asp-for="ConsultantRegisterModelVm.Department" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.Department" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.Email" class="control-label"></label>
+                    <input tabindex="6" asp-for="ConsultantRegisterModelVm.Email" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.ContractEndTime" class="control-label"></label>
+                    <input tabindex="8" type="date" asp-for="ConsultantRegisterModelVm.ContractEndTime" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.ContractEndTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultantRegisterModelVm.ConfirmPassword" class="control-label"></label>
+                    <input tabindex="10" asp-for="ConsultantRegisterModelVm.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConsultantRegisterModelVm.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

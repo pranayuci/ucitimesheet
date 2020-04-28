@@ -1,0 +1,141 @@
+﻿@page
+
+@model WebAppCore.Pages.Timesheet.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Weekly Hour Summary";
+}
+
+@*<h2>Weekly Hour Summary</h2>*@
+
+<div style="margin-top:20px;" class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Weekly Hour Summary</h3>
+            </div>
+            <div class="panel-body">
+                <input type="hidden" id="hdnTotalWorkHours" name="hdnTotalWorkHours" />
+                <input type="hidden" asp-for="@Model.WeeksOfYearVm" value="@Model.WeeksOfYearVm" />
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <input type="hidden" asp-for="@Model.WeeksOfYearVm.WeekNumber" />
+                        <label asp-for="@Model.WeeksOfYearVm.WeekNumber">
+                            Week: @Model.WeeksOfYearVm.WeekNumber
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <form asp-page-handler="edit" method="post">
+                        <div class="col-md-2">
+                            <button style="margin-left:100px;" type="submit" asp-page-handler="edit" class="btn btn-default" asp-route-weekId1="dec" asp-route-weekId=" @Model.WeeksOfYearVm.WeekNumber">
+                                <i class="glyphicon glyphicon-circle-arrow-left"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <input disabled asp-for="@Model.WeeksOfYearVm.StartDate" type="date" class="form-control col-md-3" />
+                        </div>
+                        <div class="col-md-4">
+                            <input disabled asp-for="@Model.WeeksOfYearVm.EndDate" type="date" class="form-control col-md-3" />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" asp-page-handler="edit" class="btn btn-default" asp-route-weekId1="inc" asp-route-weekId=" @Model.WeeksOfYearVm.WeekNumber">
+                                <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <form method="post" style="margin-top:20px;">
+                    <div class="form-group">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Consultant
+                                    </th>
+                                    <th>
+                                        Client
+                                    </th>
+                                    <th>
+                                        Project
+                                    </th>
+                                    <th>
+                                        Total Hours
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    @if (Model.TotalHoursConsultantWiseVms != null && Model.TotalHoursConsultantWiseVms.Any())
+                                    {
+                                        @for (int i = 0; i < Model.TotalHoursConsultantWiseVms.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" asp-for="@Model.TotalHoursConsultantWiseVms[i].FirstName" />
+                                                    <label style="font-weight:lighter" asp-for="@Model.TotalHoursConsultantWiseVms[i].FirstName">
+                                                        @Model.TotalHoursConsultantWiseVms[i].FirstName @Model.TotalHoursConsultantWiseVms[i].LastName
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" asp-for="@Model.TotalHoursConsultantWiseVms[i].ClientName" />
+                                                    <label style="font-weight:lighter" asp-for="@Model.TotalHoursConsultantWiseVms[i].ClientName">
+                                                        @Model.TotalHoursConsultantWiseVms[i].ClientName
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" asp-for="@Model.TotalHoursConsultantWiseVms[i].ProjectName" />
+                                                    <label  style="font-weight:lighter"asp-for="@Model.TotalHoursConsultantWiseVms[i].ProjectName">
+                                                        @Model.TotalHoursConsultantWiseVms[i].ProjectName
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" asp-for="@Model.TotalHoursConsultantWiseVms[i].TotalHours" />
+                                                    <label style="font-weight:lighter" asp-for="@Model.TotalHoursConsultantWiseVms[i].TotalHours">
+                                                        @Model.TotalHoursConsultantWiseVms[i].TotalHours
+                                                    </label>
+
+                                                </td>
+
+                                                <td style="width:10%">
+                                                    <div class="form-group">
+                                                        <button formtarget="_blank" type="submit" asp-page-handler="view" class="btn btn-default" asp-route-clientId="@Model.TotalHoursConsultantWiseVms[i].ClientId" asp-route-userId="@Model.TotalHoursConsultantWiseVms[i].Id" asp-route-weekId1="inc" asp-route-weekId=" @Model.WeeksOfYearVm.WeekNumber">
+                                                            <i class="glyphicon glyphicon-circle-arrow-down"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+
+
+
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    @*<div class="panel-footer">
+                            <div class="form-check m-1">
+                                <input asp-for="@Model.isSubmitted" class="form-check-input" />
+                                <label class="form-check-label" asp-for="@Model.isSubmitted">
+                                    Check to submit
+                                </label>
+                            </div>
+                            <input type="submit" asp-page-handler="main" value="Submit" class="btn btn-default" />
+                        </div>*@
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

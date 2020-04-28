@@ -1,0 +1,41 @@
+﻿@page
+@model WebAppCore.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2 class="text-center">Login</h2>
+
+<div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+        @*<h1 class="text-center">Login</h1>*@
+        <form method="post" class="form-horizontal">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LoginModelVm.UserName" class="control-label col-sm-2"></label>
+                <div class="col-sm-10">
+                    <input asp-for="LoginModelVm.UserName" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoginModelVm.Password" class="control-label col-sm-2"></label>
+                <div class="col-sm-10">
+                    <input asp-for="LoginModelVm.Password" class="form-control" />
+                </div>
+            </div>
+            @*<div class="row">*@
+            <div class="form-group text-center">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+            @*</div>*@
+            @*<button type="submit" class="btn btn-primary">Submit</button>*@
+
+        </form>
+        @*<a asp-action="ForgotPassword">Forgot Password?</a>*@
+        <a title="ForgotPassword"
+           asp-page="./ForgotPassword"
+         >
+          Forgot Password?
+        </a>
+    </div>
+</div>

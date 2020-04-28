@@ -1,0 +1,12 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Models.ViewModels
+{
+    public class UserRoleVm
+    {     
+        public string UserId { get; set; }
+        public string UserName { get; set; }
+        public bool isSelected { get; set; }
+    }
+}

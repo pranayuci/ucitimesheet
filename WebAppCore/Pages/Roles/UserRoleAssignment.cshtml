@@ -1,0 +1,52 @@
+﻿@page "{roleId:Guid?}"
+@model WebAppCore.Pages.Roles.UserRoleAssignmentModel
+
+@{
+    ViewData["Title"] = "User-Role";
+}
+
+@*<h2>Edit</h2>
+
+    <h4>Role</h4>*@
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Add or remove users from this role</h3>
+                </div>
+                <div class="panel-body">
+                    @for (int i = 0; i < Model.UserRoleVm.Count; i++)
+                    {
+                        <div class="form-check m-1">
+                            <input type="hidden" asp-for="@Model.UserRoleVm[i].UserId" />
+                            <input type="hidden" asp-for="@Model.UserRoleVm[i].UserName" />
+                            <input asp-for="@Model.UserRoleVm[i].isSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.UserRoleVm[i].isSelected">
+                                @Model.UserRoleVm[i].UserName
+                            </label>
+                        </div>
+                    }
+                </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Update" class="btn btn-default" />
+                    <a class="btn btn-primary"
+                       asp-page="./Edit"
+                       asp-route-roleId="@Model.RoleId">
+                        Cancel
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

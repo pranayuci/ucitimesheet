@@ -1,0 +1,73 @@
+﻿@page "{roleId:Guid?}"
+@model WebAppCore.Pages.Roles.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Role</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EditRoleVm.Id" />
+            <div class="form-group">
+                <label asp-for="EditRoleVm.Id" class="control-label"></label>
+                <input asp-for="EditRoleVm.Id" disabled class="form-control" />
+                <span asp-validation-for="EditRoleVm.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EditRoleVm.RoleName" class="control-label"></label>
+                <input asp-for="EditRoleVm.RoleName" class="form-control" />
+                <span asp-validation-for="EditRoleVm.RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Users in this role</h3>
+                </div>
+                <div class="panel-body">
+                    @if (Model.EditRoleVm.Users.Any())
+                    {
+                        foreach (var user in Model.EditRoleVm.Users)
+                        {
+                            <h5 class="panel-title">@user</h5>
+                        }
+                    }
+                    else
+                    {
+                        <h5 class="panel-title">None at the moment</h5>
+                    }
+                </div>
+                <div class="panel-footer">
+                    <a class="btn btn-primary"
+                       asp-page="./UserRoleAssignment"
+                       asp-route-roleId="@Model.EditRoleVm.Id">
+                        Add or Remove Users
+                    </a>
+                    @*<a class="btn btn-primary"
+                       asp-page="./Details"
+                       asp-route-roleId="@Model.EditRoleVm.Id">
+                        Remove Users
+                    </a>*@
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

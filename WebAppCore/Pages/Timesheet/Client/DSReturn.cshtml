@@ -1,0 +1,15 @@
+﻿@page
+@model WebAppCore.Pages.Timesheet.Client.DSReturnModel
+@{
+    ViewData["Title"] = "Success";
+}
+@*<h4 style="margin-top:3em;">
+        The signing ceremony was completed with
+        status <span style="color:blue;">@(Request.Query["event"])</span>
+    </h4>*@
+@*<p>This page can also implement post-signing processing.</p>
+<a href="/">Continue</a>*@
+
+
+<h2>Timesheet was successfully approved. Thank you.</h2>
+<a asp-page="./Index" class="btn btn-primary">Continue</a>

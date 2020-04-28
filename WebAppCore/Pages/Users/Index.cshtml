@@ -1,0 +1,35 @@
+﻿@page
+@model WebAppCore.Pages.Users.IndexModel
+
+@{
+    ViewData["Title"] = "All Users";
+}
+
+<h2>All Users</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+@if (Model.Users.Any())
+{
+
+    @foreach (var user in Model.Users)
+    {
+        <partial name="_Summary" model="user" />
+    }
+
+}
+else
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>No users created yet</h3>
+        </div>
+        <div class="panel-body">
+            <h5 class="panel-title"> Use the button above to create user</h5>
+        </div>    
+
+    </div>
+}
+
